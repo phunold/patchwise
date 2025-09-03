@@ -19,26 +19,16 @@ def fetch_epss():
     
     # extract score_date from this: #model_version:v2025.03.14,score_date:2025-09-03T12:55:00Z
     first_line = gz.readline().decode('utf-8').strip()
-    print("Debug info for first line: ", first_line)
     score_date = first_line.split("score_date:")[1]
-    print("Debug info for score_date: ", score_date)
+
     # convert to ISO 8601 date (remove time and Z)
     iso_date = score_date.split("T")[0]
-    print("Debug info for ISO date: ", iso_date)
     
     # now the rest is a normal CSV
     reader = csv.DictReader(io.TextIOWrapper(gz, encoding="utf-8"))
     epss = {}
-    print("Debug info for all CVEs:")
-    # output reader infos
-    print("reader fieldnames: ", reader.fieldnames)
     for row in reader:
-        print("reader row: ", row)
         cve = row.get("cve")
-        print(f"Debug info for {cve}: {row}")
-        # break after 10 rows for brevity
-        if reader.line_num > 10:
-            break
         if not cve:
             continue
         try:
@@ -48,9 +38,6 @@ def fetch_epss():
                 # add current time
                 "date": iso_date
             }
-            # output debug infos of CVE
-            print(f"Debug info for {cve}: {row}")
-
         except ValueError:
             continue
     
