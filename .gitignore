@@ -4,4 +4,4 @@ __pycache__/
 .env
 *.log
 .cache/
-.vscode/
+.vscode/.venv/
