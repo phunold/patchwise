@@ -33,7 +33,11 @@ Only a few require urgent attention.
 
 ## Run locally (dev)
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r backend/requirements.txt
-uvicorn backend.main:app --reload
+# First time
+uv venv --python 3.12
+uv sync                     # installs from pyproject/uv.lock
+
+# Start dev server (hot reload)
+uv run uvicorn backend.main:app --reload
 # open http://127.0.0.1:8000/
+

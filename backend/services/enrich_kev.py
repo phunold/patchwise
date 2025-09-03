@@ -3,16 +3,16 @@ from io import StringIO
 from pathlib import Path
 
 # Official CSV (CISA updates this regularly)
-KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.csv"
+KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 CACHE = Path(os.getenv("PATCHWISE_CACHE_DIR", "data")) / "kev.json"
 
 def fetch_kev():
     r = requests.get(KEV_URL, timeout=60)
     r.raise_for_status()
-    buf = StringIO(r.text)
-    reader = csv.DictReader(buf)
+    data = r.json()
     kev = {}
-    for row in reader:
+    # CISA JSON format: top-level 'vulnerabilities' list
+    for row in data.get("vulnerabilities", []):
         cve = row.get("cveID", "").strip()
         if cve:
             kev[cve] = {
