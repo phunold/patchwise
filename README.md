@@ -25,7 +25,7 @@ Only a few require urgent attention.
 - Delta checks (watch KEV/EPSS/PoC changes).
 
 ## Tech / Hosting
-- Python 3.11, FastAPI
+- Python 3.12, FastAPI
 - Minimal UI (server-rendered HTML)
 - Hosted once as a public web app (e.g., Azure App Service)
 - Automation via GitHub Actions (monthly ingest + daily delta checks)
